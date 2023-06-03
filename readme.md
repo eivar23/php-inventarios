@@ -18,3 +18,7 @@ Requisitos de instalación
 - Al ingresar al sistema habrá un login, puedes ingresar con las credenciales cargadas por defecto usuario: admin contraseña:12345
 - Puedes cambiar la contraseña desde el menú principal o crear un nuevo usuario.
 - Ten en cuenta que las contraseñas se almacenarán en la BD con el método SHA1, si insertas manualmente un usuario asegurate de que la contraseña esté encriptada 
+
+Arquitectura de la BD
+![image](https://github.com/eivar23/php-inventarios/assets/97815911/2ccc989e-de44-4521-92fa-8f1242228d9e)
+
