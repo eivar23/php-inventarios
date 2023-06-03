@@ -15,13 +15,26 @@ $area = buscarAreas($_POST['id']);
 $result=mysqli_query($conn, $area);
 $row=mysqli_fetch_array($result);
 if (isset($_POST['eliminar'])) {
+	
 	$area = buscarAreas($_POST['eliminar']);
 	$result=mysqli_query($conn, $area);
 	$row=mysqli_fetch_array($result);
 
-	$eliminarArea = "DELETE FROM areas WHERE id =".$_POST['eliminar'];
-	$result2=mysqli_query($conn, $eliminarArea);
-	echo '<script> window.location="listaAreas.php"; </script>';
+	$contarArea = "SELECT COUNT(id_area) as total FROM cargo_area WHERE id_area = ".$_POST['eliminar'];
+	$result3=mysqli_query($conn, $contarArea);
+	$row3=mysqli_fetch_array($result3);
+	$areas = $row3['total'];
+	if($areas>0){
+		echo '<script> window.location="listaAreas.php"; </script>';
+		mensajesArea();
+	}else{
+		$eliminarArea = "DELETE FROM area WHERE id =".$_POST['eliminar'];
+		$result2=mysqli_query($conn, $eliminarArea);
+		echo '<script> window.location="listaAreas.php"; </script>';
+		mensajesArea();
+	}
+
+	
 }
 ?>
 <table>
@@ -52,7 +65,7 @@ if (!empty($_POST['area'])) {
 	$id = $_POST['id'];
 	$area = $_POST['area'];
 
-	$editArea = "UPDATE areas SET area = '$area' WHERE id = '$id'";
+	$editArea = "UPDATE area SET area = '$area' WHERE id = '$id'";
 	if (mysqli_query($conn, $editArea)) {
 		echo '<script> window.location="listaAreas.php"; </script>';
 		print("Se inserto correctamente");

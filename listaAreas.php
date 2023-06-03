@@ -27,6 +27,9 @@ include 'Libs/consultas.php';
 			echo "<td> <button type='submit' name='eliminar' id='eliminar' value='".$row['id']."'><img src='img/delete.png'/></button></td>";
 		echo "</tr>";
 	}
+	function mensajesArea(){
+		print("se ha eliminado el registro");
+	}
 	?>
 </table>
 </form>

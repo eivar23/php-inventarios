@@ -12,102 +12,52 @@ include 'Libs/consultas.php';
 	</style>
 </head>
 <body>
-	<div align="center">
 		<h1>Ingresar Equipo</h1><br>
 		<form action="ingresarEquipo.php" method="post">
-			<table>
-				<tr>
-					<td>Usuario</td>
-					<td>
+			
+					Usuario
 						<select name="personal" id="personal" class="chosen-select">
 							<option>--Seleccione el usuario--</option>
 							<?php
 							$selectPersonal = selectPersonal($conn, 0);
 							?>
 						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>Activo</td>
-					<td>
+				
+					Activo
 						<input type="text" name="activo" id="activo">
-					</td>
-				</tr>
-				<tr>
-					<td>Tipo de equipo</td>
-					<td>
-						<select name="tipo" id="tipo" class="chosen-select">
-							<option>--Seleccione el tipo--</option>
-							<?php
-							$selectTipoEquipo = selectTipoEquipo($conn, 0);
-							?>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>Marca</td>
-					<td>
-						<input type="text" name="marca" id="marca">
-					</td>
-				</tr>
-				<tr>
-					<td>Modelo</td>
-					<td>
+					
+				
+					Marca
+					
+					<input type="text" name="marca" id="marca">
+					Modelo
+					
 						<input type="text" name="modelo" id="modelo">
-					</td>
-				</tr>
-				<tr>
-					<td>Serial</td>
-					<td>
+					
+					Serial
 						<input type="text" name="serial" id="serial">
-					</td>
-				</tr>
-				<tr>
-					<td>Fecha de compra</td>
-					<td>
+					Fecha de compra
 						<input type="date" name="fechaCompra" id="fechaCompra">
-					</td>
-				</tr>
-				<tr>
-					<td> <br> <b>Caracteristicas</b></td>
-				</tr>
-				<tr>
-					<td>Nombre</td>
-					<td>
+				<br> <b>Caracteristicas</b></td>
+				
+					Nombre
+					
 						<input type="text" name="nombre" id="nombre">
-					</td>
-				</tr>
-				<tr>
-					<td>Procesador</td>
-					<td>
-						<input type="text" name="procesador" id="procesador">
-					</td>
-				</tr>
-				<tr>
-					<td>Memoria</td>
-					<td>
-						<input type="text" name="memoria" id="memoria">
-					</td>
-				</tr>
-				<tr>
-					<td>Disco Duro</td>
-					<td>
+					
+					Procesador
+					
+					<input type="text" name="procesador" id="procesador">
+					Memoria
+					<input type="text" name="memoria" id="memoria">
+					
+					Disco Duro					
 						<input type="text" name="discoDuro" id="discoDuro">
-					</td>
-				</tr>
-				<tr>
-					<td>Sistema Operativo</td>
-					<td>
+				
+					Sistema Operativo
 						<input type="text" name="sOperativo" id="sOperativo">
-					</td>
-				</tr>
-				<tr>
-					<td>Licencia</td>
-					<td>
+					Licencia
 						<input type="text" name="licencia" id="licencia">
-					</td>
-				</tr>
-			</table>
+					
 			<br>
 			<input type="submit" name="ENVIAR">
 		</form>

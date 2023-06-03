@@ -10,20 +10,23 @@ include 'Libs/consultas.php';
 <div align="center">
 <h1>Modificación de cargo</h1><br>
 <form action="editCargo.php" method="post">
+
 <?php
 $cargo = buscarCargos($_POST['id']);
 $result=mysqli_query($conn, $cargo);
 $row=mysqli_fetch_array($result);
 if (isset($_POST['eliminar'])) {
-	$cargo = buscarAreas($_POST['eliminar']);
+	
+	$cargo = buscarCargos($_POST['eliminar']);
 	$result=mysqli_query($conn, $cargo);
 	$row=mysqli_fetch_array($result);
 
-	$eliminarCargo = "DELETE FROM cargos WHERE id =".$_POST['eliminar'];
+	$eliminarCargo = "DELETE FROM cargo WHERE id =".$_POST['eliminar'];
 	$result2=mysqli_query($conn, $eliminarCargo);
 	echo '<script> window.location="listaCargos.php"; </script>';
 }
 ?>
+
 <table>
 	<tr>
 		<td> <input type="text" name="id" id="id" disabled="" value=<?php echo $row['id']; ?>> </td>

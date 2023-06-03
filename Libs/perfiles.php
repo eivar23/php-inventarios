@@ -5,6 +5,8 @@ $perfil = $_SESSION["perfil"];
 
 print($_SESSION["perfil"]);
 
+
+
 include ("conexion.php");
 $session = validarSessionApp();
 $conn = mysqlconn();
@@ -18,4 +20,5 @@ if ($perfil == 0 || !isset($_SESSION["perfil"])) {
 }elseif ($perfil == 3) {
 	echo '<script> window.location="../inicio.php"; </script>';
 }
+
 ?>

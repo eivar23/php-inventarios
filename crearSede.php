@@ -8,20 +8,16 @@ include 'Libs/consultas.php';
 	<title>Crear sede</title>
 </head>
 <body>
-<div align="center">
+<br>
 <h1>Creación de sede</h1><br>
-<form action="crearSede.php" method="post">
-<table>
-	<tr>
-		<td> <input type="text" name="sede" id="sede" placeholder="Sede"> </td>
-	</tr>
-</table>
+<div class="crear-sede form-crear">
+	<form action="crearSede.php" method="post">
+	 <input type="text" name="sede" id="sede" placeholder="Sede">
+	 <button type="submit" name="enviar" class="btn btn-Fcrear btn-Fcr">Crear</button>
+	</form>
+	<a href="listaSedes.php"><button class="btn btn-Fmodificar">Mostrar</button></a>
+</div>
 <br>
-	<input type="submit" name="enviar" value="CREAR">
-</form>
-<br>
-<a href="listaSedes.php"><button>Mostrar</button></a>
-<br><br>
 </body>
 </html>
 
@@ -32,11 +28,11 @@ error_reporting(E_ALL ^ E_NOTICE);
 if (!empty($_POST['sede'])) {
 	$sede = $_POST['sede'];
 
-	$crearSede = "INSERT INTO sedes (sede) VALUES ('$sede')";
+	$crearSede = "INSERT INTO sede(id,sede) VALUES (null,'$sede')";
 	if (mysqli_query($conn, $crearSede)) {
-		print("Se inserto correctamente");
+		print('<br><div class="d-flex justify-content-center"><div class="alert alert-success" role="alert"> Se insetó correctamente</div></div>');
 	}else{
-		print("Error al insertar");
+		print('<br><div class="d-flex justify-content-center"><div class="alert alert-danger" role="alert"> Error al insertar</div></div>');
 	}
 }
 ?>

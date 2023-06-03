@@ -1,4 +1,19 @@
 <?php
+session_start();
+error_reporting(0);
+$usuario = $_SESSION["usuario"];
+$nombre = $_SESSION["nombre"];
+$idUsuario = $_SESSION["id"];
+$perfil = $_SESSION["perfil"];
+
+//include 'log.php';
+include_once ("conexion.php");
+$session = validarSessionApp();
+$conn = mysqlconn();
+?>
+
+<?php
+
 /////////////// SELECTS ///////////////
 
 //CHECKBOX PERMISOS
@@ -25,22 +40,30 @@ function selectTipoEquipo($conn, $equ){
 	}
 }
 
+
 //SELECT AREA
 function selectArea($conn, $ar){
-	$area = "SELECT id, area FROM areas";
+	$area = "SELECT id, area FROM area";
 	$result = mysqli_query($conn, $area);
 	while ($row = mysqli_fetch_array($result)) {
 		if ($ar == $row['id']) {
 			echo "<option value='".$row['id']."' selected> ".$row['area']." </option>";
+			
 		}else{
 			echo "<option value='".$row['id']."'> ".$row['area']." </option>";
 		}
 	}
 }
+$ar=$_POST['ar'];
+if(isset($ar)){
+	$selectCargo = selectCargo($conn, 0,$ar);
+}
+
 
 //SELECT CARGO
-function selectCargo($conn, $ca){
-	$cargo = "SELECT id, cargo FROM cargos";
+function selectCargo($conn, $ca,$ar){
+	$id_area = $ar;
+	$cargo = "SELECT cargo.id, cargo from cargo INNER join cargo_area ON id_cargo=id INNER JOIN area ON id_area = area.id where area.id='".$id_area."'";
 	$result = mysqli_query($conn, $cargo);
 	while ($row = mysqli_fetch_array($result)) {
 		if ($ca == $row['id']) {
@@ -51,22 +74,9 @@ function selectCargo($conn, $ca){
 	}
 }
 
-//SELECT PERSONAL
-function selectPersonal($conn, $per){
-	$personal = "SELECT id, usuario FROM personal";
-	$result = mysqli_query($conn, $personal);
-	while ($row = mysqli_fetch_array($result)) {
-		if ($per == $row['id']) {
-			echo "<option value='".$row['id']."' selected> ".$row['usuario']." </option>";
-		}else{
-			echo "<option value='".$row['id']."'> ".$row['usuario']." </option>";
-		}
-	}
-}
-
 //SELECT SEDES
 function selectSedes($conn, $sd){
-	$sede = "SELECT id, sede FROM sedes";
+	$sede = "SELECT id, sede FROM sede";
 	$result = mysqli_query($conn, $sede);
 	while ($row = mysqli_fetch_array($result)) {
 		if ($sd == $row['id']) {
@@ -77,9 +87,24 @@ function selectSedes($conn, $sd){
 	}
 }
 
+
+//SELECT PERSONAL
+function selectPersonal($conn, $per){
+	$personal = "SELECT id, nombre, apellido FROM personal";
+	$result = mysqli_query($conn, $personal);
+	while ($row = mysqli_fetch_array($result)) {
+		if ($per == $row['id']) {
+			echo "<option value='".$row['id']."' selected> ".$row['id']." </option>";
+		}else{
+			echo "<option value='".$row['id']."'> ".$row['id']." </option>";
+		}
+	}
+}
+
+
 //SELECT SERVIDOR
 function selectServidor($conn, $ser){
-	$servidor = "SELECT id, servidor FROM Servidores";
+	$servidor = "SELECT id, servidor FROM servidor";
 	$result = mysqli_query($conn, $servidor);
 	while ($row = mysqli_fetch_array($result)) {
 		if ($ser == $row['id']) {
@@ -109,20 +134,16 @@ function selectImpresora($conn, $imp){
 //Equipos por usuario
 function listaEquiposPorUsuario($usu){
 	$listaEquiposPorUsuario =
-	"SELECT eq.id, eq.activo, tp.tipo, eq.marca, eq.modelo, eq.serial, eq.fechaCompra, ca.cargo, ar.area, ps.usuario, sd.sede
-	FROM
-	equipos as eq,
-	tipos as tp,
-	areas as ar,
-	personal as ps,
-	sedes as sd,
-	cargos as ca
-	WHERE eq.idTipo = tp.id
-	AND ps.idArea = ar.id
-	AND eq.idUsuario = ps.id
-	AND ps.idSede = sd.id
-	AND ps.idCargo = ca.id
-	AND eq.idUsuario = '$usu'";
+	"SELECT eq.id,ma.marca,so.sistema, eq.modelo, eq.serial, eq.fecha_ingreso, ca.cargo,ar.area,pe.id 
+	FROM marca ma JOIN equipo eq ON ma.id = id_marca 
+	JOIN sistema_operativo so ON eq.id_so = so.id 
+	JOIN equipo_personal ep ON eq.id = ep.id_equipo 
+	JOIN personal pe ON ep.id_personal = pe.id 
+	JOIN cargo ca ON pe.id_cargo = ca.id 
+	JOIN cargo_area car ON ca.id = car.id_cargo 
+	JOIN area ar ON car.id_area = ar.id 
+	JOIN sede sd ON pe.id_sede = sd.id 
+	WHERE pe.id = '$usu'";
 	return $listaEquiposPorUsuario;
 }
 
@@ -135,7 +156,7 @@ function listaEquipos(){
 	tipos as tp,
 	areas as ar,
 	personal as ps,
-	sedes as sd,
+	sede as sd,
 	cargos as ca
 	WHERE eq.idTipo = tp.id
 	AND ps.idArea = ar.id
@@ -231,13 +252,13 @@ function buscarUsuario($usu){
 
 //Lista de areas
 function listaAreas(){
-	$listaAreas = "SELECT * FROM areas";
+	$listaAreas = "SELECT * FROM area";
 	return $listaAreas;
 }
 
 //Busca un area
 function buscarAreas($ar){
-	$buscarAreas = "SELECT * FROM areas WHERE id= '$ar'";
+	$buscarAreas = "SELECT * FROM area WHERE id= '$ar'";
 	return $buscarAreas;
 }
 
@@ -246,13 +267,13 @@ function buscarAreas($ar){
 
 //Lista de Cargos
 function listaCargos(){
-	$listaCargos = "SELECT * FROM cargos";
+	$listaCargos = "SELECT * FROM cargo";
 	return $listaCargos;
 }
 
 //Busca un cargo en especifico
 function buscarCargos($ca){
-	$buscarcargos = "SELECT * FROM cargos WHERE id= '$ca'";
+	$buscarcargos = "SELECT * FROM cargo WHERE id= '$ca'";
 	return $buscarcargos;
 }
 
@@ -260,13 +281,13 @@ function buscarCargos($ca){
 
 //Lista de servidores
 function listaServidores(){
-	$listaServidores = "SELECT * FROM Servidores";
+	$listaServidores = "SELECT * FROM servidor";
 	return $listaServidores;
 }
 
 //Busca un servidor
 function buscarServidores($ser){
-	$buscarServidores = "SELECT * FROM Servidores WHERE id= '$ser'";
+	$buscarServidores = "SELECT * FROM servidor WHERE id= '$ser'";
 	return $buscarServidores;
 }
 
@@ -294,11 +315,11 @@ function buscarPermisos($pe){
 
 //Lista de personal
 function listaPersonal(){
-	$listaPersonal = "SELECT ps.id, ps.usuario, ps.usuarioSer, ps.nombre, ar.area,ca.cargo, sd.sede FROM personal as ps, areas as ar, cargos as ca, sedes as sd WHERE ar.id = ps.idArea AND ca.id = ps.idCargo AND sd.id = ps.idSede ORDER BY id";
+	$listaPersonal = "SELECT ps.id, ps.nombre,ps.apellido, ar.area,ca.cargo, sd.sede FROM personal AS ps, area AS ar, cargo AS ca, sede AS sd WHERE ar.id = ps.id_area AND ca.id = ps.id_cargo AND sd.id = ps.id_sede";
 	return $listaPersonal;
 }
 
-//Busca un usuario en espesifico
+//Busca un usuario en específico
 function buscarPersonal($per){
 	$buscarPersonal = "SELECT * FROM personal WHERE id= '$per'";
 	return $buscarPersonal;
@@ -308,13 +329,13 @@ function buscarPersonal($per){
 
 //Lista de sedes
 function listaSedes(){
-	$listaSedes = "SELECT * FROM sedes";
+	$listaSedes = "SELECT * FROM sede";
 	return $listaSedes;
 }
 
 //Busca una sede en especifico
 function buscarSedes($sd){
-	$buscarSedes = "SELECT * FROM sedes WHERE id= '$sd'";
+	$buscarSedes = "SELECT * FROM sede WHERE id= '$sd'";
 	return $buscarSedes;
 }
 
@@ -338,4 +359,23 @@ function listaCambios(){
 	$listaCambios = "SELECT cm.id, cm.fechaCambio, ps.usuario as usuarioAnt, cm.idUsuarioNue, tp.tipo, eq.modelo FROM cambioEquipos as cm, personal as ps, equipos as eq, tipos as tp WHERE cm.idUsuarioAnt = ps.id AND cm.idEquipo = eq.id AND eq.idTipo = tp.id";
 	return $listaCambios;
 }
+
+// contar si hay personal dentro de un cargo
+function contarCargo($ca){
+	$contarCargo = "SELECT COUNT(id_cargo) FROM 'personal' WHERE id_cargo= '$ca'";
+	return $contarCargo;
+}
+
+//contar si hay cargos dentro de las areas
+
+function contarArea($ar){
+	
+	if($contarCargo == 0){
+		return true;
+	}else{
+		return false;
+	}
+}
+
 ?>
+

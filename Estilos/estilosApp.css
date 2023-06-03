@@ -1,47 +1,9 @@
-body {
-	font: 100% calibri;
-
+h1{
+	font-size: 2vw;
 }
-select {
-	font: 100% calibri;
-	width: 300px;
+h1, h2{
+	text-align: center;
 }
-
-textarea {
-	font: 100% calibri;
-	width: 295px;
-	height: 60px;
-}
-
-button {
-	font: 100% calibri;
-	width: 100px;
-}
-
-input[type=text] {
-	font: 100% calibri;
-	width: 300px;
-}
-
-input.usuarioSer{
-	font: 100% calibri;
-	width: 150px;
-}
-
-
-input[type=password] {
-	font: 100% calibri;
-	width: 300px;
-}
-
-input[type=submit] {
-	font: 100% calibri;
-	width: 100px;
-}
-
-/*#pai div{
-	display: none;
-}*/
 
 table.tablaDatos {
 	border: 1px solid #000;
@@ -55,11 +17,6 @@ table.tablaDatos td{
 	max-width: auto;
 }
 
-table.tablaDatos tr.titulo{
-	color: white;
-	background: blue;
-}
-
 table.tablaDatos tr.contenido{
 	color: #000;
 	background: white;
@@ -68,24 +25,112 @@ table.tablaDatos tr.contenido{
 table.tablaDatos tr.contenido:hover {
 	background: #ccc;
 }
+table .titulo{
+	background-color: #213C95;
+	color: white;
+}
 .img_logo{
 	
 	display:block;
 	margin:auto;
 }
-.form{
+/*-----------------Estilos para los formularios -------------------------- */
+.form-login{
 	width: 400px;
 	display:block;
 	margin:auto;
-	background-color: rgba(92, 92, 97, 0.5);
+	background-color:rgba(206, 203, 203, 0.384);
 	padding: 5vh;
 	border-radius: 5px;
+	box-shadow: -5px -5px 50px 5px #999CA7;
+}
+.form-login input[type=submit]{
+	margin-top: 1em;
+	width: 95%;
+	background-color: #213C95;
+	color: #fff;
+	border: none;
+	height: 35px;
+}
+.form-login input[type=submit]:hover{
+	background-color: #000;
+	color: #fff;
 }
 
-label, input[type="text"],input[type="email"],input[type="password"]{
+.txt-alert{
+	background-color: rgba(255, 117, 112, 0.253);
+	color: rgb(145, 1, 1);
+	border-radius: 5px;
+	width: 60vh;
+	padding: 5px;
+}
+
+label, input[type="text"],input[type="email"],input[type="password"],input[type="number"]{
     display: block;
     width: 95%;
     margin-top:2px;
     margin-bottom:5px;
     
+}
+.btn-Fcrear, .btn-Fmodificar{
+	margin-right: 15px;
+	width: 15vh;
+	background-color: #213C95; 
+	color:rgb(255, 255, 255);
+	float: left;
+	border: solid 1px #000;
+
+}
+.btn-Fcr{
+	margin-top: 7px;
+}
+.btn-Fcrear:hover, .btn-Fmodificar:hover{
+	background-color: #000;
+	color:white;
+}
+
+
+.form-crear input{
+	border: none;
+	border-bottom: 1px solid #000000;
+	width: 100%;
+	padding: 12px 20px;
+	margin: 8px 0;
+	box-sizing: border-box;
+	border-radius: 0;
+}
+
+.form-crear input:focus{
+	background-color: none;
+	border: none;
+	border-bottom: 2px solid #213C95;
+	box-sizing: border-box;
+}
+.form-crear{ 
+	color: #fff;
+	margin: 0 auto;
+	width: 100vh;
+	padding: 20px;
+	padding-bottom: 50px;
+	border-radius: 10px;
+	box-shadow: 0px 0px 25px 15px #999CA7;
+}
+.form-crear input[type="submit"], .form-crear button{
+	border: none;
+	width: 150px;
+	background-color: #213C95;
+	color: white;
+}
+.form-crear input[type="submit"]:hover, .form-crear button:hover{
+	border: none;
+	width: 150px;
+	background-color: #000000;
+	color: white;
+}
+
+.us-select option{
+	display: none;
+}
+#cargo option, #ar option, #sede option{
+	display: block !important;
 }

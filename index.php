@@ -17,13 +17,13 @@ $session = validarSessionIndex();
 	<title>	Inicio </title>
 </head>
 <body>
-<img src="Img/logo.png" width="300px" height="200px" class="img_logo">
-	<form action="index.php" method="post" class=form>
+<img src="Img/logo.png" width="250px" height="250px" class="img_logo">
+	<form action="index.php" method="post" class=form-login>
 			<h1>SISTEMAS</h1>
 					<label for="usuario">Usuario</label>
 					<input type="text" name="usuario" id="usuario">
 				
-					<label for="clave">Email</label>
+					<label for="clave">Contraseña</label>
 					<input type="password" name="clave" id="clave">
 
 			<input type="submit" name="login" value="INGRESAR">
@@ -38,29 +38,33 @@ $session = validarSessionIndex();
 $conn = mysqlconn();
 
 if (!empty($_POST['usuario']) && !empty($_POST['clave'])) {
+	
 	$usuario=$_POST['usuario'];
 	$pass=$_POST['clave'];
 
 	 //= $usuario;
-
-	$login="SELECT id,usuario,clave,perfil, nombre FROM usuarios WHERE usuario='".$usuario."' and clave= SHA1('".$pass."')";
+	$login ="SELECT u.id,usuario,clave,p.id AS n_perfil,nombre FROM usuario u INNER JOIN perfil p ON p.id = u.id_perfil 
+	WHERE usuario='".$usuario."' and clave= SHA1('".$pass."')";
+	
+	//$login= "SELECT id,usuario,clave,perfil, nombre FROM usuarios 
+	//WHERE usuario='".$usuario."' and clave= SHA1('".$pass."')";
 	$result=mysqli_query($conn, $login);
 	$row=mysqli_fetch_array($result);
-	$_SESSION["perfil"] = $row['perfil'];
-	$_SESSION["id"] = $row['id'];
+	$_SESSION["perfil"] = $row['n_perfil'];
+	$_SESSION["id"] = $row['u.id'];
 	$_SESSION["usuario"] = $row['usuario'];
 	$_SESSION["nombre"] = $row['nombre'];
+
 	$num=mysqli_num_rows($result);
 	if ($num > 0) {
-
 		echo '<script> window.location="Libs/perfiles.php"; </script>';
 	}else{
-		print("Usuario o clave no validos");
+		print("Usuario o clave no válidos");
 		echo "<br>";
 		//echo "<a href='MANUAL SRPF V1.2.pdf'>Ver manual</a>";
 	}
 }else{
-	print("Ingrese el usuario y la clave");
+	print("<p class='txt-alert'>Ingrese el usuario y la clave.</p>");
 	echo "<br>";
 	//echo "<a href='MANUAL SIEF V1.pdf'>Ver manual</a>";
 }

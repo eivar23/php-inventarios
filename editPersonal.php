@@ -6,6 +6,7 @@
 	<head>
 		<title>Editar Personal</title>
 	</head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <body>
 <?php
 if (!empty($_POST['eliminarPer'])) {
@@ -13,7 +14,8 @@ if (!empty($_POST['eliminarPer'])) {
 	$result2=mysqli_query($conn, $eliminarPerSer);
 }
 if (!empty($_POST['eliminar'])) {
-	$eliminarPersonal = "DELETE FROM personal WHERE id =".$_POST['eliminar'];
+	$usuario = $_POST['eliminar'];
+	$eliminarPersonal = "DELETE FROM personal WHERE id ='$usuario'";
 	$result2=mysqli_query($conn, $eliminarPersonal);
 	echo '<script> window.location="listaPersonal.php"; </script>';
 }
@@ -59,8 +61,9 @@ if (!empty($_POST['servidores'])) {
 	$result=mysqli_query($conn, $personal);
 	$row=mysqli_fetch_array($result);
 	?>
-	<div align="center">
+	<div class="container">
 		<h1>Agregar permisos en servidores</h1><br>
+		<div class="form-editPersonal">
 		<?php echo "<h2>".$row['usuario']." - ".$row['nombre']." </h2><br>"; ?>
 		<form action="editPersonal.php" method="post">
 			<table class="tablaDatos">
@@ -95,6 +98,7 @@ if (!empty($_POST['servidores'])) {
 				</tr>
 			</table>
 			</form>
+		</div>
 	</div>
 <div align="center">
 	<h1>Permisos en servidores</h1><br>
@@ -144,39 +148,33 @@ if (!empty($_POST['editar'])) {
 			<td> <input type="text" name="id" id="id" disabled="" value=<?php echo $row['id']; ?>> </td>
 			<td> <input type="text" name="id" id="id" style="display: none;" value=<?php echo $row['id']; ?>> </td>
 		</tr>
-		<tr>
-			<?php
-			echo "<td> <input type='text' name='personal' id='personal' value='".$row['usuario']."'> </td>";
-			?>
-		</tr>
-		<tr>
-			<?php
-			echo "<td> <input type='text' name='usuarioSer' id='usuarioSer' value='".$row['usuarioSer']."'> </td>";
-			?>
-		</tr>
+		
 		<tr>
 			<?php
 			echo "<td> <input type='text' name='nombre' id='nombre' value='".$row['nombre']."'> </td>";
 			?>
 		</tr>
 		<tr>
+			<?php
+			echo "<td> <input type='text' name='apellido' id='apellido' value='".$row['apellido']."'> </td>";
+			?>
+		</tr>
+		<tr>
 			<td>
-				<select name="area" id="area" class="chosen-select">
+				<select name="ar" id="ar" class="chosen-select">
 					<option>--Seleccione el area--</option>
-					<?php
-					$selectArea = selectArea($conn, $row['idArea']);
-					?>
+					<?php $selectArea = selectArea($conn, $row['idArea']); ?>
 				</select>
 			</td>
 		</tr>
 		<tr>
 			<td>
-				<select name="cargo" id="cargo" class="chosen-select">
-					<option>--Seleccione el area--</option>
-					<?php
-					$selectArea = selectCargo($conn, $row['idCargo']);
-					?>
-				</select>
+			<div class="form-group">
+			<label for="cargo">Cargo</label>
+			<select class="form-control" id="cargo" name="cargo">
+				<option>Seleccione el cargo</option>
+			</select>
+		</div>
 			</td>
 		</tr>
 		<tr>
@@ -197,6 +195,7 @@ if (!empty($_POST['editar'])) {
 	<a href="listaPersonal.php"><button>Mostrar</button></a>
 	<br><br>
 	</div>
+	
 <?php
 }
 error_reporting(E_ALL ^ E_NOTICE);
@@ -223,5 +222,26 @@ if (!empty($_POST['personal']) && !empty($_POST['nombre']) && !empty($_POST['are
 <!--SELECT CHOSEN-->
 <script src="Libs/chosen/chosen.jquery.js" type="text/javascript"></script>
 <script src="Libs/chosen/init.js" type="text/javascript" charset="utf-8"></script>
+
+<script>	
+
+$(document).ready(function() {
+    $('#ar').on('change', function() {
+		var ar = $(this).val();
+		console.log(ar)
+        $.ajax({
+            url: 'Libs/consultas.php',
+            type: 'post',
+            data: {ar:ar},
+            success:function(res) { 
+				$('#cargo').html(res);         	
+            }
+        });
+    });
+	
+});
+
+</script>
+
 </body>
 </html>

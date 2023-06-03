@@ -19,7 +19,7 @@ if (isset($_POST['eliminar'])) {
 	$result=mysqli_query($conn, $sedes);
 	$row=mysqli_fetch_array($result);
 
-	$eliminarSedes = "DELETE FROM sedes WHERE id =".$_POST['eliminar'];
+	$eliminarSedes = "DELETE FROM sede WHERE id =".$_POST['eliminar'];
 	$result2=mysqli_query($conn, $eliminarSedes);
 	echo '<script> window.location="listaSedes.php"; </script>';
 }
@@ -52,7 +52,7 @@ if (!empty($_POST['sede'])) {
 	$id = $_POST['id'];
 	$sede = $_POST['sede'];
 
-	$editSede = "UPDATE sedes SET sede = '$sede' WHERE id = '$id'";
+	$editSede = "UPDATE sede SET sede = '$sede' WHERE id = '$id'";
 	if (mysqli_query($conn, $editSede)) {
 		echo '<script> window.location="listaSedes.php"; </script>';
 		print("Se inserto correctamente");

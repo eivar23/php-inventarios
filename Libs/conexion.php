@@ -4,7 +4,7 @@ function mysqlconn(){
 	$server='localhost';
 	$user='root';
 	$pass='';
-	$db='sistemasgyg_inventarios';
+	$db='inventario_gyg';
 	$conectID = mysqli_connect($server,$user,$pass,$db);
 	if (!$conectID) {
 		echo "No funciona la conexion";

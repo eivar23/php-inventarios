@@ -8,24 +8,21 @@ include 'Libs/consultas.php';
 	<title>Crear Permiso</title>
 </head>
 <body>
-<div align="center">
+<br>
 <h1>Creación de permisos en Servidores</h1><br>
-<form action="crearPermiso.php" method="post">
-<table>
-	<tr>
-		<td> <input type="text" name="permiso" id="permiso" placeholder="Permiso"> </td>
-	</tr>
-</table>
-<br>
-	<input type="submit" name="enviar" value="CREAR">
-</form>
-<br>
-<a href="listaPermisos.php"><button>Mostrar</button></a>
+<div class="crear-permiso form-crear">
+	<form action="crearPermiso.php" method="post">
+	
+	 <input type="text" name="permiso" id="permiso" placeholder="Permiso"> 
+
+		<button type="submit" name="enviar" class="btn btn-Fcrear btn-Fcr">Crear</button>
+	</form>
+	<a href="listaPermisos.php"><button class="btn btn-Fmodificar">Mostrar</button></a>
+</div>
 <br><br>
 </body>
 </html>
 
-<div align="center">
 <?php
 error_reporting(E_ALL ^ E_NOTICE);
 
@@ -34,9 +31,9 @@ if (!empty($_POST['permiso'])) {
 
 	$crearPermiso = "INSERT INTO Permisos (permiso) VALUES ('$permiso')";
 	if (mysqli_query($conn, $crearPermiso)) {
-		print("Se inserto correctamente");
+		print('<br><div class="d-flex justify-content-center"><div class="alert alert-success" role="alert"> Se insetó correctamente</div></div>');
 	}else{
-		print("Error al insertar");
+		print('<br><div class="d-flex justify-content-center"><div class="alert alert-danger" role="alert"> Error al insertar</div></div>');
 	}
 }
 ?>
