@@ -1,0 +1,91 @@
+body {
+	font: 100% calibri;
+
+}
+select {
+	font: 100% calibri;
+	width: 300px;
+}
+
+textarea {
+	font: 100% calibri;
+	width: 295px;
+	height: 60px;
+}
+
+button {
+	font: 100% calibri;
+	width: 100px;
+}
+
+input[type=text] {
+	font: 100% calibri;
+	width: 300px;
+}
+
+input.usuarioSer{
+	font: 100% calibri;
+	width: 150px;
+}
+
+
+input[type=password] {
+	font: 100% calibri;
+	width: 300px;
+}
+
+input[type=submit] {
+	font: 100% calibri;
+	width: 100px;
+}
+
+/*#pai div{
+	display: none;
+}*/
+
+table.tablaDatos {
+	border: 1px solid #000;
+	border-collapse: collapse;
+	width: 600px;
+}
+
+table.tablaDatos td{
+	border: 1px solid #000;
+	min-width: 150px;
+	max-width: auto;
+}
+
+table.tablaDatos tr.titulo{
+	color: white;
+	background: blue;
+}
+
+table.tablaDatos tr.contenido{
+	color: #000;
+	background: white;
+}
+
+table.tablaDatos tr.contenido:hover {
+	background: #ccc;
+}
+.img_logo{
+	
+	display:block;
+	margin:auto;
+}
+.form{
+	width: 400px;
+	display:block;
+	margin:auto;
+	background-color: rgba(92, 92, 97, 0.5);
+	padding: 5vh;
+	border-radius: 5px;
+}
+
+label, input[type="text"],input[type="email"],input[type="password"]{
+    display: block;
+    width: 95%;
+    margin-top:2px;
+    margin-bottom:5px;
+    
+}
